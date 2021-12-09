@@ -1,0 +1,38 @@
+/* Fonts */
+@font-face {
+}
+
+/* Colors */
+
+:root {
+  --grey-light: #eadede;
+  --orange-light: #f58840;
+  --red-light: #b85252;
+  --black-dark: #000000;
+}
+
+/* CSS Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Elements */
+html {
+  font-size: 62.5%; /* font-size 1em = 10px on default browser settings */
+}
+
+body {
+}
+
+/* General */
+.page-container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  background-color: var(--grey-light);
+}
