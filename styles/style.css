@@ -33,6 +33,20 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: row;
+  flex-direction: column;
   background-color: var(--grey-light);
+}
+
+.main-title {
+  text-align: center;
+  margin: 2rem;
+  text-transform: uppercase;
+}
+
+object {
+  pointer-events: none;
+}
+
+g:hover {
+  fill: #ff6768;
 }
