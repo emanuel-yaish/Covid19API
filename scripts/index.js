@@ -3,9 +3,8 @@
 const covid19 = {
   // properties
   continents: ["Africa", "Americas", "Asia", "Europe", "Oceania"],
-  // `https://intense-mesa-62220.herokuapp.com/https://corona-api.com/countries/`;//+countryCode
   constinetCountriesUrl:
-    "//intense-mesa-62220.herokuapp.com/https://restcountries.herokuapp.com/api/v1/region/",
+    "https://intense-mesa-62220.herokuapp.com/https://restcountries.herokuapp.com/api/v1/region/",
   selectedContinent: "",
   continentsAndCities: {},
   statistics: {
@@ -14,9 +13,11 @@ const covid19 = {
     recovered: "",
   },
   continentsApi: {},
+  countryCoronaApi: `https://intense-mesa-62220.herokuapp.com/https://corona-api.com/countries/`,
 
   // methods
 
+  // get all countries names for selected continent
   async getCountriesByContinent(continent) {
     try {
       // `https://intense-mesa-62220.herokuapp.com/https://corona-api.com/countries/`;//+countryCode
@@ -33,9 +34,38 @@ const covid19 = {
     }
   },
 
+  // get all countries covid data
   async getContinentCountriesCovidData(countries) {
-    console.log("get countrie");
+    console.log("to implement get Continent Countries Covid Data");
+    return;
+    try {
+
+      // const texts = await Promise.all(urls.map(async url => {
+      //   const resp = await fetch(url);
+      //   return resp.text();
+      // }));
+
+//claen way
+      const requests = this.countries.map((country) => fetch(this.countryCoronaApi + country.code)); 
+      const responses = await Promise.all(requests); 
+      const promises = responses.map((response) => response.text());
+      return await Promise.all(promises);
+
+      const countriesCovidUrls = await Promise.all(this.countries.map((country) => {
+        countryCoronaApi
+
+        // `https://intense-mesa-62220.herokuapp.com/https://corona-api.com/countries/`;//+countryCode
+        // add to promise array country url
+      });
+
+      // this.countriesCovidData = await countries.PromiseAll(countriesCovidUrls);
+      //  this.loadDataInChart(countriesCovidData);
+    } catch (e) {
+      console.log(e);
+    }
   },
+
+  loadDataInChart(countriesCovidData) {},
 
   getCountry() {},
   getCountryCovidData() {},

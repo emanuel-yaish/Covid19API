@@ -23,9 +23,6 @@ html {
   font-size: 62.5%; /* font-size 1em = 10px on default browser settings */
 }
 
-body {
-}
-
 /* General */
 .page-container {
   height: 100vh;
@@ -43,9 +40,9 @@ body {
   text-transform: uppercase;
 }
 
-object {
+/* object {
   pointer-events: none;
-}
+} */
 
 g:hover {
   fill: #ff6768;
