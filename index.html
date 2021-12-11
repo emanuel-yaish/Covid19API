@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="styles/normalize.css">
     <link rel="stylesheet" href="styles/style.css">
     <title>Covid 19 API</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
     <script src="scripts/index.js" defer></script>
 </head>
 
@@ -135,12 +136,24 @@
             </div>
         </header>
         <section class="continent">
-            <h2 class="continent-name">continent Name</h2>
-            <div continent-graph></div>
+            <h2 class="continent-title"></h2>
+            <div continent-graph>
+                <canvas id="covidChart"></canvas>
+            </div>
         </section>
         <section class="country">
-            <h2 class="country-name">country Name</h2>
+            <label class="countries-label" for="countries">Choose a country:</label>
+
+            <select class="countries">
+            </select>
+            <!-- <h2 class="country-name">country Name</h2> -->
             <div class="country-data">
+                <p class="confirmed-cases">Confirmed Cases: <span class="confirmed-cases-value"></span></p>
+                <p class="deaths">Number of Deaths: <span class="deaths-value"></span></p>
+                <p class="recovered">Number of recovered: <span class="recovered-value"></span></p>
+                <p class="critical-condition">Number of critical condition: <span
+                        class="critical-condition-value"></span>
+                </p>
             </div>
         </section>
     </div>

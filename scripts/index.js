@@ -6,16 +6,81 @@ const covid19 = {
   constinetCountriesUrl:
     "https://intense-mesa-62220.herokuapp.com/https://restcountries.herokuapp.com/api/v1/region/",
   selectedContinent: "",
+  selectedContinentContries: "",
   continentsAndCities: {},
   statistics: {
     cases: "",
     deaths: "",
     recovered: "",
   },
-  continentsApi: {},
-  countryCoronaApi: `https://intense-mesa-62220.herokuapp.com/https://corona-api.com/countries/`,
+  countries: "",
+  selectedContinentCountriesName: [],
+  countryCoronaUrl: `https://intense-mesa-62220.herokuapp.com/https://corona-api.com/countries/`,
+  countriesCoronaData: "",
+
+  // chart
+  covidChart: "",
+  chartData: {
+    labels: "",
+    datasets: [
+      {
+        label: "",
+        backgroundColor: "rgb(255, 99, 132)",
+        borderColor: "rgb(255, 99, 132)",
+        data: [],
+      },
+    ],
+  },
+
+  config: {
+    type: "line",
+    data: "",
+    options: {},
+  },
 
   // methods
+
+  showSelectedCountryData({ target }) {
+    const conronaCountryData = this.countriesCoronaData;
+    console.log("data target", conronaCountryData);
+    const { confirmed, critical, deaths, recovered } =
+      conronaCountryData[target.value].data.latest_data;
+    document.querySelector(".confirmed-cases-value").textContent = confirmed;
+    document.querySelector(".deaths-value").textContent = deaths;
+    document.querySelector(".recovered-value").textContent = recovered;
+    document.querySelector(".critical-condition-value").textContent = critical;
+
+    console.log("show", conronaCountryData[target.value].data.latest_data);
+  },
+
+  // draw chart by statistics type, statistics type options are: Confirmed Cases, Deaths , recovered ,critical condition
+  drawChart(statisticsType) {
+    const chartData = this.chartData;
+    chartData.labels = this.selectedContinentCountriesName;
+
+    console.log("countries Data", this.countriesCoronaData);
+
+    const data = this.countriesCoronaData.map(
+      (country) => country.data.latest_data[statisticsType]
+    );
+
+    chartData.datasets = [
+      {
+        label: `${this.selectedContinent} Covid Chart`,
+        backgroundColor: "rgb(255, 99, 132)",
+        borderColor: "rgb(255, 99, 132)",
+        data: data,
+      },
+    ];
+
+    this.config.data = chartData;
+
+    if (this.covidChart !== "") this.covidChart.destroy();
+    this.covidChart = new Chart(
+      document.getElementById("covidChart"),
+      this.config
+    );
+  },
 
   // get all countries names for selected continent
   async getCountriesByContinent(continent) {
@@ -23,12 +88,25 @@ const covid19 = {
       // `https://intense-mesa-62220.herokuapp.com/https://corona-api.com/countries/`;//+countryCode
 
       const request = `${covid19.constinetCountriesUrl}${continent}`;
-      const countries = await (await fetch(request)).json();
-      this.continentsAndCities[continent] = countries;
-      console.log(countries);
-      this.getContinentCountriesCovidData(countries);
+      this.countries = await (await fetch(request)).json();
+      this.continentsAndCities[continent] = this.countries;
+      await this.getContinentCountriesCovidData(this.countries);
 
-      // todo add option with list html option counries
+      const countriesSelectElement = document.querySelector(".countries");
+      countriesSelectElement.textContent = "";
+      this.selectedContinentCountriesName = [];
+
+      this.countries.forEach((country, index) => {
+        countriesSelectElement.add(new Option(country.name.common, index));
+        this.selectedContinentCountriesName.push(country.name.common);
+      });
+
+      countriesSelectElement.addEventListener(
+        "input",
+        this.showSelectedCountryData.bind(this)
+      );
+
+      this.drawChart("confirmed");
     } catch (e) {
       console.log(e);
     }
@@ -36,30 +114,14 @@ const covid19 = {
 
   // get all countries covid data
   async getContinentCountriesCovidData(countries) {
-    console.log("to implement get Continent Countries Covid Data");
-    return;
     try {
+      const requests = this.countries.map((country) =>
+        fetch(this.countryCoronaUrl + country.cca2)
+      );
 
-      // const texts = await Promise.all(urls.map(async url => {
-      //   const resp = await fetch(url);
-      //   return resp.text();
-      // }));
-
-//claen way
-      const requests = this.countries.map((country) => fetch(this.countryCoronaApi + country.code)); 
-      const responses = await Promise.all(requests); 
-      const promises = responses.map((response) => response.text());
-      return await Promise.all(promises);
-
-      const countriesCovidUrls = await Promise.all(this.countries.map((country) => {
-        countryCoronaApi
-
-        // `https://intense-mesa-62220.herokuapp.com/https://corona-api.com/countries/`;//+countryCode
-        // add to promise array country url
-      });
-
-      // this.countriesCovidData = await countries.PromiseAll(countriesCovidUrls);
-      //  this.loadDataInChart(countriesCovidData);
+      const responses = await Promise.all(requests);
+      const promises = responses.map((response) => response.json());
+      this.countriesCoronaData = await Promise.all(promises);
     } catch (e) {
       console.log(e);
     }
@@ -72,6 +134,7 @@ const covid19 = {
 
   selectPageElements() {
     this.worldMapElement = document.querySelector("svg");
+    this.continentTitleElement = document.querySelector(".continent-title");
   },
 
   selectContinent() {
@@ -80,6 +143,7 @@ const covid19 = {
 
       const continentID = target.closest("g").getAttribute("data-country-id");
       this.selectedContinent = this.continents[continentID];
+      this.continentTitleElement.textContent = this.selectedContinent;
 
       if (this.continentsAndCities[this.selectedContinent] === undefined)
         this.getCountriesByContinent(this.selectedContinent);
