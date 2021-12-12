@@ -1,0 +1,20 @@
+/* country */
+
+.countries-label {
+  font-size: 2rem;
+  margin-right: 1rem;
+}
+.countries {
+  padding: 1rem;
+  background-color: var(--grey-light);
+  font-size: 2rem;
+}
+
+.country-data {
+  display: flex;
+}
+
+.country-data p {
+  margin: 2rem 5rem 0 0;
+  font-size: 2rem;
+}

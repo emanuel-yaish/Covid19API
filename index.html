@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/normalize.css">
     <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/continent.css">
+    <link rel="stylesheet" href="styles/country.css">
+    <link rel="stylesheet" href="styles/utiles.css">
     <title>Covid 19 API</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
     <script src="scripts/index.js" defer></script>
@@ -15,7 +18,7 @@
 <body>
     <div class="page-container">
         <header class="main-header">
-            <h1 class="main-title">Covid 19</h1>
+            <h1 class="main-title">Covid 19 - Statistics</h1>
             <div class="world-map-container">
                 <!-- <object class="world-map" data="assets/img/continents.svg" type=""></object> -->
                 <?xml version="1.0" standalone="no"?>
@@ -134,14 +137,17 @@
                 </svg>
 
             </div>
+            <div>
+                <p class="header-select-continent">* Select continent</p>
+            </div>
         </header>
-        <section class="continent">
+        <section class="continent hidden">
             <h2 class="continent-title"></h2>
             <div continent-graph>
                 <canvas id="covidChart"></canvas>
             </div>
         </section>
-        <section class="country">
+        <section class="country hidden">
             <label class="countries-label" for="countries">Choose a country:</label>
 
             <select class="countries">

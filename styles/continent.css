@@ -1,0 +1,8 @@
+/* continent */
+.continent {
+  text-align: center;
+  max-width: 960px;
+}
+.continent-title {
+  font-size: 4rem;
+}

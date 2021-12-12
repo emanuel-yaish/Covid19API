@@ -8,3 +8,6 @@
 .big-margin {
   margin: 3rem;
 }
+.hidden {
+  display: none;
+}

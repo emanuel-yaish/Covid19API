@@ -48,12 +48,14 @@ html {
 body {
   background-color: var(--grey-light);
   font-family: "Josefin Sans", "Oswald", sans-serif;
+  display: flex;
+  justify-content: center;
 }
 
 /* General */
 .page-container {
   padding: 5vh 5vw;
-  width: 100vw;
+  width: 960px;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -61,7 +63,7 @@ body {
 
 .main-title {
   text-align: center;
-  margin: 2rem;
+  margin: 5rem;
   text-transform: uppercase;
 }
 
@@ -69,32 +71,9 @@ g:hover {
   fill: #ff6768;
 }
 
-/* continent */
-.continent {
+.header-select-continent {
+  font-size: 2rem;
   text-align: center;
-  max-width: 960px;
-}
-.continent-title {
-  font-size: 4rem;
-}
-
-/* country */
-
-.countries-label {
-  font-size: 2rem;
-  margin-right: 1rem;
-}
-.countries {
-  padding: 1rem;
-  background-color: var(--grey-light);
-  font-size: 2rem;
-}
-
-.country-data {
-  display: flex;
-}
-
-.country-data p {
-  margin: 2rem 5rem 0 0;
-  font-size: 2rem;
+  color: #ff6768;
+  text-shadow: 0.1rem 0.1rem 0.1rem black;
 }
