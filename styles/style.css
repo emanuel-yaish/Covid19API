@@ -28,9 +28,10 @@
 
 :root {
   --grey-light: #eadede;
-  --orange-light: #f58840;
-  --red-light: #b85252;
-  --black-dark: #000000;
+  --black: #000000;
+  --hover: #ff6384;
+  /* --orange-light: #f58840;
+  --red-light: #b85252; */
 }
 
 /* CSS Reset */
@@ -68,12 +69,12 @@ body {
 }
 
 g:hover {
-  fill: #ff6768;
+  fill: var(--hover);
 }
 
 .header-select-continent {
   font-size: 2rem;
   text-align: center;
-  color: #ff6768;
+  color: var(--hover);
   text-shadow: 0.1rem 0.1rem 0.1rem black;
 }

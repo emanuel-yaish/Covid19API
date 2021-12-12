@@ -6,7 +6,6 @@ const covid19 = {
   constinetCountriesUrl:
     "https://intense-mesa-62220.herokuapp.com/https://restcountries.herokuapp.com/api/v1/region/",
   selectedContinent: "",
-  selectedContinentContries: "",
   continentsAndCities: {},
   statistics: {
     cases: "",
@@ -14,7 +13,22 @@ const covid19 = {
     recovered: "",
   },
   countries: "",
-  selectedContinentCountriesName: [],
+  continentCountriesName: {
+    Africa: [],
+    Americas: [],
+    Asia: [],
+    Europe: [],
+    Oceania: [],
+  },
+
+  continentsCountriesAndCovidData: {
+    Africa: [],
+    Americas: [],
+    Asia: [],
+    Europe: [],
+    Oceania: [],
+  },
+
   countryCoronaUrl: `https://intense-mesa-62220.herokuapp.com/https://corona-api.com/countries/`,
   countriesCoronaData: "",
 
@@ -40,6 +54,10 @@ const covid19 = {
   },
 
   // methods
+  showContinentData() {
+    this.drawChart("confirmed");
+  },
+
   showSelectedCountryData({ target }) {
     const coronaCountryData = this.countriesCoronaData;
     const { confirmed, critical, deaths, recovered } =
@@ -50,14 +68,30 @@ const covid19 = {
     this.criticalConditionValueElement.textContent = critical;
   },
 
-  // draw chart by statistics type, statistics type options are: Confirmed Cases, Deaths , recovered ,critical condition
+  // Add countries names to select element
+  addSelectCountriesName() {
+    this.countriesSelectElement.textContent = "";
+
+    this.continentsCountriesAndCovidData[this.selectedContinent].forEach(
+      (country, index) => {
+        this.countriesSelectElement.add(new Option(country.data.name, index));
+      }
+    );
+  },
+
+  // draw chart by statistics type, statistics type options are: confirmed Cases, deaths , recovered ,critical condition
   drawChart(statisticsType) {
     const chartData = this.chartData;
-    chartData.labels = this.selectedContinentCountriesName;
 
-    const data = this.countriesCoronaData.map(
-      (country) => country.data.latest_data[statisticsType]
-    );
+    // labels
+    chartData.labels = this.continentsCountriesAndCovidData[
+      this.selectedContinent
+    ].map((country) => country.data.name);
+
+    // covid values
+    const data = this.continentsCountriesAndCovidData[
+      this.selectedContinent
+    ].map((country) => country.data.latest_data[statisticsType]);
 
     chartData.datasets = [
       {
@@ -77,17 +111,6 @@ const covid19 = {
     );
   },
 
-  // extract names of the countries and add it to select element and continent array
-  extractCountriesName() {
-    this.countriesSelectElement.textContent = "";
-    this.selectedContinentCountriesName = [];
-
-    this.countries.forEach((country, index) => {
-      this.countriesSelectElement.add(new Option(country.name.common, index));
-      this.selectedContinentCountriesName.push(country.name.common);
-    });
-  },
-
   // get all countries covid data
   async getContinentCountriesCovidData(countries) {
     try {
@@ -97,7 +120,11 @@ const covid19 = {
 
       const responses = await Promise.all(requests);
       const promises = responses.map((response) => response.json());
+      // to change this lines
       this.countriesCoronaData = await Promise.all(promises);
+      this.continentsCountriesAndCovidData[this.selectedContinent] =
+        this.countriesCoronaData;
+      console.log("await", this.continentsCountriesAndCovidData);
     } catch (e) {
       console.log(e);
     }
@@ -111,9 +138,8 @@ const covid19 = {
       this.continentsAndCities[continent] = this.countries;
       await this.getContinentCountriesCovidData(this.countries);
 
-      this.extractCountriesName();
-
       this.drawChart("confirmed");
+      this.addSelectCountriesName();
     } catch (e) {
       console.log(e);
     }
@@ -122,6 +148,16 @@ const covid19 = {
   showGraphAndCountry() {
     const hiddenElemnts = document.querySelectorAll(".hidden");
     hiddenElemnts.forEach((element) => element.classList.remove("hidden"));
+  },
+
+  selectStatisticButton({ target }) {
+    this.drawChart(target.value);
+  },
+
+  selectStatisticType() {
+    this.statisticsButtons.forEach((button) => {
+      button.addEventListener("click", this.selectStatisticButton.bind(this));
+    });
   },
 
   selectContinent() {
@@ -134,10 +170,10 @@ const covid19 = {
       this.selectedContinent = this.continents[continentID];
       this.continentTitleElement.textContent = this.selectedContinent;
 
-      if (this.continentsAndCities[this.selectedContinent] === undefined)
+      if (this.continentsAndCities[this.selectedContinent] === undefined) {
         this.getCountriesByContinent(this.selectedContinent);
-      else {
-        showContinentData();
+      } else {
+        this.showContinentData();
       }
     });
   },
@@ -150,6 +186,7 @@ const covid19 = {
   },
 
   addPageEvents() {
+    this.selectStatisticType();
     this.selectContinent();
     this.selectCountry();
   },
@@ -166,6 +203,7 @@ const covid19 = {
     this.criticalConditionValueElement = document.querySelector(
       ".critical-condition-value"
     );
+    this.statisticsButtons = document.querySelectorAll(".statistic-button");
   },
 
   init() {

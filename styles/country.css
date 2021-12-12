@@ -1,5 +1,7 @@
 /* country */
-
+.country {
+  margin: 3rem 0;
+}
 .countries-label {
   font-size: 2rem;
   margin-right: 1rem;

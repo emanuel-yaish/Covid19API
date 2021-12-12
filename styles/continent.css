@@ -2,7 +2,37 @@
 .continent {
   text-align: center;
   max-width: 960px;
+  margin: 3rem 0;
 }
 .continent-title {
   font-size: 4rem;
+}
+
+.continent-buttons-container {
+  display: flex;
+  justify-content: center;
+}
+
+.statistic-button {
+  padding: 1rem;
+  background-color: var(--grey-light);
+  font-size: 2rem;
+  margin: 3rem 2rem;
+  box-shadow: 0.1rem 0.2rem 0.6rem black;
+}
+
+.statistic-button:hover {
+  background-color: var(--hover);
+}
+
+.statistic-button:active {
+  box-shadow: none;
+}
+
+.continent-graph-container {
+  width: 100%;
+}
+
+.covid-chart {
+  width: 100%;
 }

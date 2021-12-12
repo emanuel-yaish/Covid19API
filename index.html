@@ -20,7 +20,6 @@
         <header class="main-header">
             <h1 class="main-title">Covid 19 - Statistics</h1>
             <div class="world-map-container">
-                <!-- <object class="world-map" data="assets/img/continents.svg" type=""></object> -->
                 <?xml version="1.0" standalone="no"?>
                 <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="468pt" height="239pt" viewBox="0 0 468 239"
                     preserveAspectRatio="xMidYMid meet">
@@ -143,8 +142,14 @@
         </header>
         <section class="continent hidden">
             <h2 class="continent-title"></h2>
-            <div continent-graph>
-                <canvas id="covidChart"></canvas>
+            <div class="continent-buttons-container">
+                <input type="button" class="statistic-button" value="confirmed" />
+                <input type="button" class="statistic-button" value="deaths" />
+                <input type="button" class="statistic-button" value="recovered" />
+                <input type="button" class="statistic-button" value="critical" />
+            </div>
+            <div class="continent-graph-container">
+                <canvas class="covid-chart" id="covidChart"></canvas>
             </div>
         </section>
         <section class="country hidden">
@@ -152,7 +157,6 @@
 
             <select class="countries">
             </select>
-            <!-- <h2 class="country-name">country Name</h2> -->
             <div class="country-data">
                 <p class="confirmed-cases">Confirmed Cases: <span class="confirmed-cases-value"></span></p>
                 <p class="deaths">Number of Deaths: <span class="deaths-value"></span></p>
