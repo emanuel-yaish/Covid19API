@@ -1,0 +1,30 @@
+.page-container {
+  padding: 1rem;
+  /* display: block; */
+}
+svg {
+  display: block;
+  width: 100%;
+}
+
+.continent-buttons-container {
+  flex-direction: column;
+  align-items: center;
+}
+
+.statistic-button {
+  width: 20rem;
+  margin: 1.5rem 0;
+}
+
+.continent-graph-container {
+  width: 90vw;
+}
+
+.covid-chart {
+}
+
+.country-data {
+  flex-direction: column;
+  align-items: center;
+}
