@@ -1,7 +1,7 @@
 /* continent */
 .continent {
   text-align: center;
-  max-width: 960px;
+  width: 100%;
   margin: 3rem 0;
 }
 .continent-title {
@@ -31,6 +31,7 @@
 
 .continent-graph-container {
   width: 100%;
+  margin: 4rem 0 0;
 }
 
 .covid-chart {

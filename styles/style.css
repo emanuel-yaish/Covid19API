@@ -30,8 +30,7 @@
   --grey-light: #eadede;
   --black: #000000;
   --hover: #ff6384;
-  /* --orange-light: #f58840;
-  --red-light: #b85252; */
+  --dark-blue: #00008b;
 }
 
 /* CSS Reset */
@@ -56,7 +55,6 @@ body {
 /* General */
 .page-container {
   padding: 5vh 5vw;
-  width: 960px;
   display: flex;
   align-items: center;
   flex-direction: column;

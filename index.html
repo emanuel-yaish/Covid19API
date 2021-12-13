@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="styles/continent.css">
     <link rel="stylesheet" href="styles/country.css">
+    <link rel="stylesheet" href="styles/loading.css">
     <link rel="stylesheet" href="styles/utiles.css">
     <title>Covid 19 API</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
@@ -140,6 +141,12 @@
                 <p class="header-select-continent">* Select continent</p>
             </div>
         </header>
+        <div class="lds-ellipsis hidden">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
         <section class="continent hidden">
             <h2 class="continent-title"></h2>
             <div class="continent-buttons-container">
@@ -157,6 +164,7 @@
 
             <select class="countries">
             </select>
+
             <div class="country-data">
                 <p class="confirmed-cases">Confirmed Cases: <span class="confirmed-cases-value"></span></p>
                 <p class="deaths">Number of Deaths: <span class="deaths-value"></span></p>

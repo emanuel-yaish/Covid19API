@@ -62,10 +62,10 @@ const covid19 = {
     const coronaCountryData = this.countriesCoronaData;
     const { confirmed, critical, deaths, recovered } =
       coronaCountryData[target.value].data.latest_data;
-    this.confirmedCasesValueElement.textContent = confirmed;
-    this.deathsValueElement.textContent = deaths;
-    this.recoveredValueElement.textContent = recovered;
-    this.criticalConditionValueElement.textContent = critical;
+    this.confirmedCasesValueElement.textContent = confirmed.toLocaleString();
+    this.deathsValueElement.textContent = deaths.toLocaleString();
+    this.recoveredValueElement.textContent = recovered.toLocaleString();
+    this.criticalConditionValueElement.textContent = critical.toLocaleString();
   },
 
   // Add countries names to select element
@@ -86,12 +86,18 @@ const covid19 = {
     // labels
     chartData.labels = this.continentsCountriesAndCovidData[
       this.selectedContinent
-    ].map((country) => country.data.name);
+    ].map((country) => {
+      if (country.data) return country.data.name;
+      else return (country.data = "");
+    });
 
     // covid values
     const data = this.continentsCountriesAndCovidData[
       this.selectedContinent
-    ].map((country) => country.data.latest_data[statisticsType]);
+    ].map((country) => {
+      if (country.data) return country.data.latest_data[statisticsType];
+      else return 0;
+    });
 
     chartData.datasets = [
       {
@@ -114,6 +120,7 @@ const covid19 = {
   // get all countries covid data
   async getContinentCountriesCovidData(countries) {
     try {
+      this.hideGraphAndCountry();
       const requests = this.countries.map((country) =>
         fetch(this.countryCoronaUrl + country.cca2)
       );
@@ -124,7 +131,6 @@ const covid19 = {
       this.countriesCoronaData = await Promise.all(promises);
       this.continentsCountriesAndCovidData[this.selectedContinent] =
         this.countriesCoronaData;
-      console.log("await", this.continentsCountriesAndCovidData);
     } catch (e) {
       console.log(e);
     }
@@ -140,14 +146,20 @@ const covid19 = {
 
       this.drawChart("confirmed");
       this.addSelectCountriesName();
+      this.showGraphAndCountry();
     } catch (e) {
       console.log(e);
     }
   },
 
   showGraphAndCountry() {
-    const hiddenElemnts = document.querySelectorAll(".hidden");
-    hiddenElemnts.forEach((element) => element.classList.remove("hidden"));
+    this.hiddenElemnts.forEach((element) => element.classList.remove("hidden"));
+    this.loader.classList.toggle("hidden");
+  },
+
+  hideGraphAndCountry() {
+    this.hiddenElemnts.forEach((element) => element.classList.add("hidden"));
+    this.loader.classList.toggle("hidden");
   },
 
   selectStatisticButton({ target }) {
@@ -163,8 +175,6 @@ const covid19 = {
   selectContinent() {
     this.worldMapElement.addEventListener("click", ({ target }) => {
       if (target.tagName.toUpperCase() !== "PATH") return;
-
-      if (this.selectedContinent === "") this.showGraphAndCountry();
 
       const continentID = target.closest("g").getAttribute("data-country-id");
       this.selectedContinent = this.continents[continentID];
@@ -203,7 +213,9 @@ const covid19 = {
     this.criticalConditionValueElement = document.querySelector(
       ".critical-condition-value"
     );
+    this.loader = document.querySelector(".lds-ellipsis");
     this.statisticsButtons = document.querySelectorAll(".statistic-button");
+    this.hiddenElemnts = document.querySelectorAll(".hidden");
   },
 
   init() {
