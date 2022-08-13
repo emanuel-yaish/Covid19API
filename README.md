@@ -17,5 +17,5 @@ This project use a Covid 19 API and represent it for the use , the user can see 
 https://vigilant-lewin-2dfaeb.netlify.app/
 
 <a href="https://vigilant-lewin-2dfaeb.netlify.app/" target="_blank">
-  <img src="assets/img/covid 19 statistics.pngg">
+  <img src="assets/img/covid-19-statistics.png">
 </a>
